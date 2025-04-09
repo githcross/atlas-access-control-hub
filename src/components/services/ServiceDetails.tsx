@@ -10,15 +10,24 @@ import ConnectionsTab from "./tabs/ConnectionsTab";
 
 interface ServiceDetailsProps {
   service: Service;
+  onUpdate?: (service: Service) => void;
 }
 
-const ServiceDetails = ({ service }: ServiceDetailsProps) => {
+const ServiceDetails = ({ service: initialService, onUpdate }: ServiceDetailsProps) => {
   const [activeTab, setActiveTab] = useState("overview");
+  const [service, setService] = useState<Service>(initialService);
   const users = getServiceUsers(service.id);
+  
+  const handleServiceUpdate = (updatedService: Service) => {
+    setService(updatedService);
+    if (onUpdate) {
+      onUpdate(updatedService);
+    }
+  };
   
   return (
     <div className="bg-white dark:bg-card border rounded-lg overflow-hidden">
-      <ServiceHeader service={service} />
+      <ServiceHeader service={service} onUpdate={handleServiceUpdate} />
       
       <div className="p-2">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -38,11 +47,11 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
           </TabsContent>
           
           <TabsContent value="resources" className="p-4">
-            <ResourcesTab service={service} />
+            <ResourcesTab service={service} onUpdate={handleServiceUpdate} />
           </TabsContent>
           
           <TabsContent value="connections" className="p-4">
-            <ConnectionsTab service={service} />
+            <ConnectionsTab service={service} onUpdate={handleServiceUpdate} />
           </TabsContent>
         </Tabs>
       </div>
