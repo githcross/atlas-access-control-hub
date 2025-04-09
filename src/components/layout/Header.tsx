@@ -1,10 +1,13 @@
 
 import { Button } from "@/components/ui/button";
-import { Bell, Settings } from "lucide-react";
+import { Bell, LogOut, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import SearchInput from "../ui/SearchInput";
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
+  const { user, logout } = useAuth();
+  
   return (
     <header className="h-16 border-b bg-white dark:bg-card flex items-center px-6">
       <Link to="/" className="flex items-center mr-8">
@@ -27,11 +30,24 @@ const Header = () => {
           <Settings size={20} />
         </Button>
         
-        <div className="flex items-center ml-2">
-          <div className="w-8 h-8 rounded-full bg-atlas-purple flex items-center justify-center text-white text-sm">
-            JS
-          </div>
-        </div>
+        {user && (
+          <>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              title="Log out"
+              onClick={logout}
+            >
+              <LogOut size={18} />
+            </Button>
+            
+            <div className="flex items-center ml-2">
+              <div className="w-8 h-8 rounded-full bg-atlas-purple flex items-center justify-center text-white text-sm" title={user.name}>
+                {user.name.split(' ').map(n => n[0]).join('')}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </header>
   );

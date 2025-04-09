@@ -6,10 +6,14 @@ import ServiceCard from "@/components/services/ServiceCard";
 import { services, ServiceType } from "@/data/mockData";
 import { Badge } from "@/components/ui/badge";
 import { Search, SlidersHorizontal, Plus } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { toast } from "@/hooks/use-toast";
 
 const ServicesPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState<ServiceType | null>(null);
+  const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
+  const [isAddServiceDialogOpen, setIsAddServiceDialogOpen] = useState(false);
   
   // Get unique service types
   const serviceTypes = Array.from(new Set(services.map(service => service.type)));
@@ -24,6 +28,15 @@ const ServicesPage = () => {
     
     return matchesSearch && matchesType;
   });
+
+  const handleAddService = () => {
+    // In a real app, this would add a new service
+    setIsAddServiceDialogOpen(false);
+    toast({
+      title: "Service Added",
+      description: "New service has been created successfully",
+    });
+  };
   
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -34,11 +47,18 @@ const ServicesPage = () => {
         </div>
         
         <div className="flex items-center gap-2 mt-4 md:mt-0">
-          <Button variant="outline" className="flex items-center gap-1">
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-1"
+            onClick={() => setIsFilterDialogOpen(true)}
+          >
             <SlidersHorizontal size={16} />
             <span>Filters</span>
           </Button>
-          <Button className="flex items-center gap-1">
+          <Button 
+            className="flex items-center gap-1"
+            onClick={() => setIsAddServiceDialogOpen(true)}
+          >
             <Plus size={16} />
             <span>Add Service</span>
           </Button>
@@ -96,6 +116,77 @@ const ServicesPage = () => {
           </div>
         )}
       </div>
+
+      {/* Filter Dialog */}
+      <Dialog open={isFilterDialogOpen} onOpenChange={setIsFilterDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Filter Services</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <h4 className="mb-2 font-medium">Service Type</h4>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {serviceTypes.map((type) => (
+                <Button
+                  key={type}
+                  variant={selectedType === type ? "secondary" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedType(type === selectedType ? null : type)}
+                >
+                  {type}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setSelectedType(null);
+                setIsFilterDialogOpen(false);
+              }}
+            >
+              Reset Filters
+            </Button>
+            <Button onClick={() => setIsFilterDialogOpen(false)}>Apply Filters</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Service Dialog */}
+      <Dialog open={isAddServiceDialogOpen} onOpenChange={setIsAddServiceDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Service</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Service Name</label>
+              <Input placeholder="Enter service name" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Service Type</label>
+              <div className="flex flex-wrap gap-2">
+                {serviceTypes.map((type) => (
+                  <Button
+                    key={type}
+                    variant="outline"
+                    size="sm"
+                  >
+                    {type}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsAddServiceDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleAddService}>Add Service</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
