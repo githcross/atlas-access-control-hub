@@ -1,6 +1,6 @@
 
 import { Service } from "@/data/mockData";
-import Badge from "../ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Plug, Users } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -21,7 +21,7 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
           </div>
           <div>
             <h3 className="font-medium">{name}</h3>
-            <Badge type={type} size="sm">{type}</Badge>
+            <Badge variant="outline">{type}</Badge>
           </div>
         </div>
         <div className="flex items-center gap-1">

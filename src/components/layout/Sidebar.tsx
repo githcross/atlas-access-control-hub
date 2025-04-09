@@ -47,7 +47,7 @@ const AppSidebar = () => {
             <SidebarMenu>
               {mainMenuItems.map((item) => (
                 <SidebarMenuItem key={item.path}>
-                  <SidebarMenuButton asChild active={location.pathname === item.path}>
+                  <SidebarMenuButton asChild isActive={location.pathname === item.path}>
                     <Link to={item.path} className="flex items-center">
                       <item.icon className="mr-3" size={20} />
                       <span>{item.title}</span>
@@ -65,7 +65,7 @@ const AppSidebar = () => {
             <SidebarMenu>
               {additionalMenuItems.map((item) => (
                 <SidebarMenuItem key={item.path}>
-                  <SidebarMenuButton asChild active={location.pathname === item.path}>
+                  <SidebarMenuButton asChild isActive={location.pathname === item.path}>
                     <Link to={item.path} className="flex items-center">
                       <item.icon className="mr-3" size={20} />
                       <span>{item.title}</span>

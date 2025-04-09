@@ -3,7 +3,7 @@ import { useState } from "react";
 import { User, users, services } from "@/data/mockData";
 import { Check, ChevronDown, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Badge from "../ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
 const UserAccessTable = () => {
@@ -116,12 +116,7 @@ const UserAccessTable = () => {
                   </div>
                 </td>
                 <td className="py-3 px-4 border-b">
-                  <Badge 
-                    type={user.role === "Administrator" ? "hosting" : 
-                          user.role === "DevOps Engineer" ? "domain" : 
-                          user.role === "Developer" ? "repository" : 
-                          user.role === "Content Manager" ? "email" : "other"}
-                  >
+                  <Badge variant="outline">
                     {user.role}
                   </Badge>
                 </td>
@@ -131,9 +126,8 @@ const UserAccessTable = () => {
                       const service = services.find(s => s.id === access.serviceId);
                       return (
                         <Badge 
-                          key={`${user.id}-${access.serviceId}`} 
-                          type={service?.type || "other"}
-                          size="sm"
+                          key={`${user.id}-${access.serviceId}`}
+                          variant="outline"
                           className="whitespace-nowrap"
                         >
                           {access.serviceName}
@@ -141,7 +135,7 @@ const UserAccessTable = () => {
                       );
                     })}
                     {user.access.length > 3 && (
-                      <Badge type="other" size="sm">+{user.access.length - 3} more</Badge>
+                      <Badge variant="outline" className="whitespace-nowrap">+{user.access.length - 3} more</Badge>
                     )}
                   </div>
                 </td>

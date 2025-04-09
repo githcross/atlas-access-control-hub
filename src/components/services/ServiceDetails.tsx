@@ -1,9 +1,9 @@
 
 import { useState } from "react";
-import { Service, getServiceUsers } from "@/data/mockData";
+import { Service, getServiceUsers, services } from "@/data/mockData"; // Added services import
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Badge from "../ui/Badge";
+import { Badge } from "@/components/ui/badge"; // Updated to use shadcn badge
 import { Globe, GitBranch, Server, Check, Edit, Link as LinkIcon, Lock, BarChart3, ExternalLink } from "lucide-react";
 
 interface ServiceDetailsProps {
@@ -25,7 +25,7 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
           <div>
             <h2 className="text-2xl font-semibold">{service.name}</h2>
             <div className="flex items-center gap-2 mt-1">
-              <Badge type={service.type}>{service.type}</Badge>
+              <Badge variant="outline">{service.type}</Badge>
               <div className="flex items-center">
                 <span className={`w-2 h-2 rounded-full ${service.apiConnected ? 'bg-green-500' : 'bg-yellow-500'} mr-1`}></span>
                 <span className="text-xs text-muted-foreground">
@@ -296,7 +296,7 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
                         </div>
                         <div className="ml-3">
                           <div className="font-medium">{connService.name}</div>
-                          <Badge type={connService.type} size="sm">{connService.type}</Badge>
+                          <Badge variant="outline">{connService.type}</Badge>
                         </div>
                       </div>
                       <Button variant="ghost" size="sm">View</Button>

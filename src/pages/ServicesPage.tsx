@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ServiceCard from "@/components/services/ServiceCard";
 import { services, ServiceType } from "@/data/mockData";
-import Badge from "@/components/ui/Badge";
+import { Badge } from "@/components/ui/badge";
 import { Search, SlidersHorizontal, Plus } from "lucide-react";
 
 const ServicesPage = () => {
@@ -66,14 +66,15 @@ const ServicesPage = () => {
           </Button>
           
           {serviceTypes.map((type) => (
-            <Badge
+            <Button
               key={type}
-              type={type}
-              className={`cursor-pointer px-3 py-1 ${selectedType === type ? 'ring-2 ring-offset-2' : ''}`}
+              variant={selectedType === type ? "secondary" : "outline"}
+              size="sm"
               onClick={() => setSelectedType(type === selectedType ? null : type)}
+              className={`${type === selectedType ? 'ring-2 ring-offset-2' : ''}`}
             >
               {type}
-            </Badge>
+            </Button>
           ))}
         </div>
       </div>

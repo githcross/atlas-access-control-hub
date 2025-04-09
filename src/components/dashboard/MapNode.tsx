@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Badge from '../ui/Badge';
+import { Badge } from '@/components/ui/badge';
 import { Service } from '@/data/mockData';
 import { Link } from 'react-router-dom';
 
@@ -57,7 +57,7 @@ const MapNode: React.FC<MapNodeProps> = ({ service, x, y, onNodeClick }) => {
         <div className="flex-grow min-w-0">
           <div className="flex items-center justify-between">
             <h3 className="font-medium text-sm truncate">{name}</h3>
-            <Badge type={type} size="sm">{type}</Badge>
+            <Badge variant={type} className="text-xs">{type}</Badge>
           </div>
           
           <p className="text-xs text-gray-500 mt-1 line-clamp-2">{description}</p>
