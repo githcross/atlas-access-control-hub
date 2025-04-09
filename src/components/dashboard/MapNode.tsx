@@ -57,7 +57,7 @@ const MapNode: React.FC<MapNodeProps> = ({ service, x, y, onNodeClick }) => {
         <div className="flex-grow min-w-0">
           <div className="flex items-center justify-between">
             <h3 className="font-medium text-sm truncate">{name}</h3>
-            <Badge variant={type} className="text-xs">{type}</Badge>
+            <Badge variant="secondary" className="text-xs">{type}</Badge>
           </div>
           
           <p className="text-xs text-gray-500 mt-1 line-clamp-2">{description}</p>

@@ -1,9 +1,9 @@
 
 import { useState } from "react";
-import { Service, getServiceUsers, services } from "@/data/mockData"; // Added services import
+import { Service, getServiceUsers, services } from "@/data/mockData";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge"; // Updated to use shadcn badge
+import { Badge } from "@/components/ui/badge";
 import { Globe, GitBranch, Server, Check, Edit, Link as LinkIcon, Lock, BarChart3, ExternalLink } from "lucide-react";
 
 interface ServiceDetailsProps {
@@ -13,6 +13,19 @@ interface ServiceDetailsProps {
 const ServiceDetails = ({ service }: ServiceDetailsProps) => {
   const [activeTab, setActiveTab] = useState("overview");
   const users = getServiceUsers(service.id);
+  
+  // Helper function to map service types to badge variants
+  const getBadgeVariant = (type: string) => {
+    switch(type) {
+      case 'hosting':
+      case 'repository':
+      case 'email':
+      case 'domain':
+        return 'secondary';
+      default:
+        return 'outline';
+    }
+  };
   
   return (
     <div className="bg-white dark:bg-card border rounded-lg overflow-hidden">
@@ -176,9 +189,11 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
                         </td>
                         <td className="px-4 py-3">
                           <Badge 
-                            type={user.serviceRole === "Admin" ? "hosting" : 
-                                  user.serviceRole === "Developer" ? "repository" : 
-                                  user.serviceRole === "Editor" ? "email" : "other"}
+                            variant={
+                              user.serviceRole === "Admin" ? "secondary" : 
+                              user.serviceRole === "Developer" ? "outline" : 
+                              user.serviceRole === "Editor" ? "default" : "secondary"
+                            }
                           >
                             {user.serviceRole}
                           </Badge>
@@ -238,7 +253,7 @@ const ServiceDetails = ({ service }: ServiceDetailsProps) => {
                             <span className="capitalize">{env}</span>
                           </div>
                           <div className="flex items-center">
-                            <Badge type="other" size="sm" className="mr-2">Active</Badge>
+                            <Badge variant="secondary" className="mr-2">Active</Badge>
                             <Button size="sm" variant="ghost">
                               <BarChart3 size={14} />
                             </Button>
