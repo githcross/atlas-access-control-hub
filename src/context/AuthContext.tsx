@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 
 // Define the shape of a user
@@ -33,15 +33,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Check if user is already logged in (from localStorage in this mock example)
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setIsLoading(false);
+    const checkAuth = async () => {
+      setIsLoading(true);
+      const storedUser = localStorage.getItem("user");
+      
+      if (storedUser) {
+        try {
+          setUser(JSON.parse(storedUser));
+        } catch (error) {
+          console.error("Failed to parse stored user data:", error);
+          localStorage.removeItem("user");
+        }
+      }
+      
+      setIsLoading(false);
+    };
+    
+    checkAuth();
   }, []);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !user && location.pathname !== '/login') {
+      navigate('/login');
+    }
+  }, [user, isLoading, navigate, location.pathname]);
 
   // Login function
   const login = async (email: string, password: string): Promise<boolean> => {
