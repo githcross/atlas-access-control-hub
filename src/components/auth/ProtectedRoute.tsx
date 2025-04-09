@@ -1,5 +1,5 @@
 
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
 interface ProtectedRouteProps {
@@ -8,7 +8,6 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated, isLoading } = useAuth();
-  const location = useLocation();
   
   if (isLoading) {
     return (
@@ -19,8 +18,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
   
   if (!isAuthenticated) {
-    // Save the location the user was trying to access
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to="/login" replace />;
   }
   
   return <>{children}</>;

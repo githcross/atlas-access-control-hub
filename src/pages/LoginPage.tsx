@@ -1,33 +1,18 @@
 
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
-
-interface LocationState {
-  from?: string;
-}
 
 const LoginPage = () => {
   const [email, setEmail] = useState("hcruz@ufgcorp.com");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { login, isAuthenticated } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  
-  const state = location.state as LocationState;
-  const from = state?.from || "/";
-  
-  // If already authenticated, redirect to the desired location
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate(from, { replace: true });
-    }
-  }, [isAuthenticated, navigate, from]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +21,7 @@ const LoginPage = () => {
     const success = await login(email, password);
     
     if (success) {
-      navigate(from, { replace: true });
+      navigate("/");
     }
     
     setIsLoading(false);

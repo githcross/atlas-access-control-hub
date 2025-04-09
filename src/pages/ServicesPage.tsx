@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ServiceCard from "@/components/services/ServiceCard";
 import { services, ServiceType } from "@/data/mockData";
+import { Badge } from "@/components/ui/badge";
 import { Search, SlidersHorizontal, Plus } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
@@ -13,11 +14,6 @@ const ServicesPage = () => {
   const [selectedType, setSelectedType] = useState<ServiceType | null>(null);
   const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
   const [isAddServiceDialogOpen, setIsAddServiceDialogOpen] = useState(false);
-  
-  // Form state for adding new service
-  const [newServiceName, setNewServiceName] = useState("");
-  const [newServiceType, setNewServiceType] = useState<ServiceType | null>(null);
-  const [newServiceDescription, setNewServiceDescription] = useState("");
   
   // Get unique service types
   const serviceTypes = Array.from(new Set(services.map(service => service.type)));
@@ -34,28 +30,12 @@ const ServicesPage = () => {
   });
 
   const handleAddService = () => {
-    if (!newServiceName || !newServiceType) {
-      toast({
-        title: "Missing Information",
-        description: "Please provide a name and select a type for the new service",
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    // In a real app, this would add a new service to the database
-    // For now, we'll just show a success toast
+    // In a real app, this would add a new service
     setIsAddServiceDialogOpen(false);
-    
     toast({
       title: "Service Added",
-      description: `${newServiceName} has been created successfully`,
+      description: "New service has been created successfully",
     });
-    
-    // Reset form fields
-    setNewServiceName("");
-    setNewServiceType(null);
-    setNewServiceDescription("");
   };
   
   return (
@@ -146,13 +126,6 @@ const ServicesPage = () => {
           <div className="py-4">
             <h4 className="mb-2 font-medium">Service Type</h4>
             <div className="flex flex-wrap gap-2 mb-4">
-              <Button
-                variant={selectedType === null ? "secondary" : "outline"}
-                size="sm"
-                onClick={() => setSelectedType(null)}
-              >
-                All Services
-              </Button>
               {serviceTypes.map((type) => (
                 <Button
                   key={type}
@@ -189,19 +162,7 @@ const ServicesPage = () => {
           <div className="py-4">
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">Service Name</label>
-              <Input 
-                placeholder="Enter service name" 
-                value={newServiceName}
-                onChange={(e) => setNewServiceName(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Service Description</label>
-              <Input 
-                placeholder="Enter a brief description" 
-                value={newServiceDescription}
-                onChange={(e) => setNewServiceDescription(e.target.value)}
-              />
+              <Input placeholder="Enter service name" />
             </div>
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">Service Type</label>
@@ -209,9 +170,8 @@ const ServicesPage = () => {
                 {serviceTypes.map((type) => (
                   <Button
                     key={type}
-                    variant={newServiceType === type ? "secondary" : "outline"}
+                    variant="outline"
                     size="sm"
-                    onClick={() => setNewServiceType(type === newServiceType ? null : type)}
                   >
                     {type}
                   </Button>
@@ -220,12 +180,7 @@ const ServicesPage = () => {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => {
-              setNewServiceName("");
-              setNewServiceType(null);
-              setNewServiceDescription("");
-              setIsAddServiceDialogOpen(false);
-            }}>
+            <Button variant="outline" onClick={() => setIsAddServiceDialogOpen(false)}>
               Cancel
             </Button>
             <Button onClick={handleAddService}>Add Service</Button>
