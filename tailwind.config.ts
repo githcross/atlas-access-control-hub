@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,22 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				atlas: {
+					blue: '#2D3A80',
+					indigo: '#4C35DE',
+					purple: '#6E59A5',
+					violet: '#7857FF',
+					lightblue: '#7DABFF',
+					slate: '#1A1F2C',
+					gray: '#F1F0FB'
+				},
+				service: {
+					hosting: '#7857FF',
+					domain: '#FF7857',
+					repository: '#57B0FF',
+					email: '#57FFA0',
+					other: '#FFD057'
 				}
 			},
 			borderRadius: {
@@ -84,11 +101,16 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-gentle': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' },
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-gentle': 'pulse-gentle 3s infinite ease-in-out',
 			}
 		}
 	},
