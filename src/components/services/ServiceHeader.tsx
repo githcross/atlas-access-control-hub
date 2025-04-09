@@ -48,7 +48,7 @@ const ServiceHeader = ({ service, onUpdate }: ServiceHeaderProps) => {
       toast({
         title: "API Connected",
         description: `Successfully connected to ${name} API`,
-        variant: "success",
+        variant: "default", // Changed from "success" to "default"
       });
     }, 1500);
   };
